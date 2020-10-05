@@ -479,9 +479,7 @@ Implement a function that returns the last digit of a given number.
 -}
 -- DON'T FORGET TO SPECIFY THE TYPE IN HERE
 lastDigit :: Int -> Int
-lastDigit n
-  | n >= 0 = mod n 10
-  | otherwise = mod (- n) 10
+lastDigit n = mod (abs n) 10
 
 
 {- |
@@ -552,6 +550,7 @@ mid x y z
   | (z <= x) && (x <= y) = x
   | (y <= z) && (z <= x) = z
   | (x <= z) && (z <= y) = z
+  | otherwise = z
 
 {- |
 =⚔️= Task 8
@@ -636,15 +635,12 @@ Try to introduce variables in this task (either with let-in or where) to avoid
 specifying complex expressions.
 -}
 
-sumLast2 n
-  | n < 0 = sumLast2 (- n)
-  | otherwise = lastDigit n + secondToLastDigit n
+sumLast2 :: Int -> Int
+sumLast2 n = lastDigit i + secondToLastDigit i
       where
-        lastDigit :: Int -> Int
-        lastDigit x = mod x 10
+        i = abs n
         secondToLastDigit :: Int -> Int
-        secondToLastDigit x = div (mod x 100 - lastDigit x) 10
-
+        secondToLastDigit x = lastDigit (div x 10)
 
 {- |
 =💣= Task 10*
@@ -664,6 +660,7 @@ You need to use recursion in this task. Feel free to return to it later, if you
 aren't ready for this boss yet!
 -}
 
+firstDigit :: Int -> Int
 firstDigit n
   | n < 0 = firstDigit (- n)
   | otherwise = if n < 10 then n else firstDigit (div n 10)

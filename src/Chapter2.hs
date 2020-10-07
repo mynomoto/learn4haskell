@@ -517,7 +517,7 @@ True
 False
 -}
 isThird42 :: [Int] -> Bool
-isThird42 (_ : _ : x : _)= x == 42
+isThird42 (_ : _ : 42 : _)= True
 isThird42 _ = False
 
 
@@ -623,10 +623,10 @@ Implement a function that duplicates each element of the list
 
 -}
 duplicate :: [a] -> [a]
-duplicate l = go [] l
+duplicate l = go [] (reverse l)
    where
       go :: [a] -> [a] -> [a]
-      go acc (x : y) = go (concat [acc, [x, x]]) y
+      go acc (x : y) = go (x : x : acc) y
       go acc _ = acc
 
 
@@ -752,7 +752,7 @@ value of the element itself
 🕯 HINT: Use combination of 'map' and 'replicate'
 -}
 smartReplicate :: [Int] -> [Int]
-smartReplicate l = concat (map (\i -> replicate i i) l)
+smartReplicate = concatMap (\i -> replicate i i)
 
 {- |
 =⚔️= Task 9
@@ -766,7 +766,7 @@ the list with only those lists that contain a passed element.
 🕯 HINT: Use the 'elem' function to check whether an element belongs to a list
 -}
 contains :: Int -> [[Int]] -> [[Int]]
-contains n l = filter (elem n) l
+contains n = filter (elem n)
 
 
 {- |
@@ -889,8 +889,11 @@ and reverses it.
   cheating!
 -}
 rewind :: [a] -> [a]
-rewind [] = []
-rewind (a : b)= concat [(rewind b), [a]]
+rewind = go []
+   where
+      go :: [a] -> [a] -> [a]
+      go acc [] = acc
+      go acc (x : y) = go (x : acc) y
 
 
 {-
